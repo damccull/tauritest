@@ -1,1 +1,4 @@
 /target
+
+# Remove this if you want to store generated artifacts in the repo
+/dist
