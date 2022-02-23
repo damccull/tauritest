@@ -51,6 +51,16 @@ fn view(model: &Model) -> Node<Msg> {
         "https://via.placeholder.com/250/AAAAAA/000000?text=Clicks+{}",
         model.counter
     );
+    let button = button![
+        "Click me!",
+        ev(Ev::Click, |_| Msg::Increment),
+        attrs! {At::Type=>"button"},
+        C!["px-4 py-1 text-sm text-purple-600 font-semibold rounded-full border"],
+        C!["border-purple-200 hover:text-white hover:bg-purple-600"],
+        C!["hover:border-transparent focus:outline-none focus:ring-2"],
+        C!["focus:ring-purple-600 focus:ring-offset-2"],
+    ];
+
     div![
         C!["py-8 px-8 max-w-sm mx-auto bg-white rounded-xl shadow-lg space-y-2 sm:py-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-6"],
         img![
@@ -63,15 +73,7 @@ fn view(model: &Model) -> Node<Msg> {
                 p!["Counter", C!["text-lg text-black font-semibold"]],
                 p!["Increase Counter", C!["text-slate-500 font-medium"]],
             ],
-            button![
-                "Click me!",
-                ev(Ev::Click, |_| Msg::Increment),
-                attrs! {At::Type=>"button"},
-                C!["px-4 py-1 text-sm text-purple-600 font-semibold rounded-full border"],
-                C!["border-purple-200 hover:text-white hover:bg-purple-600"],
-                C!["hover:border-transparent focus:outline-none focus:ring-2"],
-                C!["focus:ring-purple-600 focus:ring-offset-2"],
-            ],
+            button,
         ],
     ]
 
@@ -92,4 +94,19 @@ fn view(model: &Model) -> Node<Msg> {
 pub fn start() {
     // Mount the `app` to the element with the `id` "app".
     App::start("app", init, update, view);
+}
+
+fn btn<F: FnOnce(seed::prelude::web_sys::Event) + std::clone::Clone>(
+    text: &str,
+    click_handler: F,
+) -> seed::virtual_dom::Node<_> {
+    button![
+        "Click me!",
+        ev(Ev::Click, click_handler),
+        attrs! {At::Type=>"button"},
+        C!["px-4 py-1 text-sm text-purple-600 font-semibold rounded-full border"],
+        C!["border-purple-200 hover:text-white hover:bg-purple-600"],
+        C!["hover:border-transparent focus:outline-none focus:ring-2"],
+        C!["focus:ring-purple-600 focus:ring-offset-2"],
+    ]
 }
