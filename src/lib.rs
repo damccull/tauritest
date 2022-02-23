@@ -48,11 +48,30 @@ fn update(msg: Msg, model: &mut Model, _: &mut impl Orders<Msg>) {
 // `view` describes what to display.
 fn view(model: &Model) -> Node<Msg> {
     div![
-        "This is a counter: ",
-        C!["counter"],
-        C!["counter bg-red-500"],
-        button![model.counter, ev(Ev::Click, |_| Msg::Increment),],
+        C!["p-6 max-w-sm mx-auto bg-white rounded-xl shadow-lg flex items-center space-x-4"],
+        div![
+            C!["shrink-0"],
+            div![
+                C!["h-12 w-12 text-[1.5em] border text-center"],
+                p![C!["inline-block align-middle"], model.counter],
+            ],
+        ],
+        div![
+            div![C!["font-serif"], "Counter"],
+            button![
+                "Click me!",
+                ev(Ev::Click, |_| Msg::Increment),
+                C!["button"],
+                attrs! {At::Type=>"button"},
+            ],
+        ]
     ]
+    // div![
+    //     "This is a counter: ",
+    //     C!["counter"],
+    //     C!["counter bg-blue-500/[.75] hover:bg-green-600/[.5]"],
+    //     button![model.counter, ev(Ev::Click, |_| Msg::Increment),],
+    // ]
 }
 
 // ------ ------
