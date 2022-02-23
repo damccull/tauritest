@@ -2,31 +2,44 @@ version="0.3.2"
 
 [scripts]
 ## Builds Tailwind CSS for development (no purging)
-build-tailwind-dev = [
+build-tailwind-dev.cmd = [
     "tailwindcss -c ./tailwind.config.js -i ./src/style.css -o ./css/style.min.css --watch"
 ]
+build-tailwind-dev.desc = "Runs tailwindcss to build the css file and automatically rebuilds on changes."
+
 ## Builds Tailwind CSS for production (maximum purging and minification)
-build-tailwind-prod = [
+build-tailwind-prod.cmd = [
     "tailwindcss -c ./tailwind.config.js -i ./src/style.css -o ./css/style.min.css --minify"
 ]
+build-tailwind-prod.desc = "Runs tailwindcss to build a minified production version of the css file."
+
 ## Builds Tailwind CSS for development usage
-setup.subcommands.tailwind = "bonnie build-tailwind-dev"
-setup.subcommands.prompt-tailwind = "echo \"Have you installed the Tailwind CLI globally with 'npm i -g tailwindcss' or 'yarn global add tailwindcss'?\""
+setup.subcommands.tailwind.cmd = "bonnie build-tailwind-dev"
+setup.subcommands.tailwind.desc = ""
+setup.subcommands.prompt-tailwind.cmd = "echo \"Have you installed the Tailwind CLI globally with 'npm i -g tailwindcss' or 'yarn global add tailwindcss'?\""
+setup.subcommands.prompt-tailwind.desc = ""
 setup.order = """
 tailwind {
     Failure => prompt-tailwind
 }
 """
+setup.desc = "Runs build-tailwind-dev if tailwindcss command exists, or prompts to install it."
 
 ## Builds everything
 build.cmd = "cargo build"
+build.desc = "Calls cargo build to build everything."
 ## Builds the frontend
-build.subcommands.frontend = [
+build.subcommands.frontend.cmd = [
     "bonnie build-tailwind-prod",
     "cargo build"
 ]
+build.subcommands.frontend.desc = "Builds the front end."
+
+
+run.desc = ""
 ## Runs the frontend, watching for changes (uses Trunk)
 ## Tailwind is assumed to be set up after `setup`
-run.subcommands.frontend = [
+run.subcommands.frontend.cmd = [
     "trunk serve"
 ]
+run.subcommands.frontend.desc = "Runs the front end using Trunk, watches for changes."
